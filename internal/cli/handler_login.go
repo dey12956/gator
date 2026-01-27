@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"context"
 	"errors"
 	"fmt"
 )
@@ -10,7 +11,12 @@ func HandlerLogin(s *State, cmd Command) error {
 		return errors.New("you need to enter the username argument")
 	}
 
-	err := s.C.SetUser(cmd.Args[0])
+	_, err := s.DB.GetUser(context.Background(), cmd.Args[0])
+	if err != nil {
+		return err
+	}
+
+	err = s.C.SetUser(cmd.Args[0])
 	if err != nil {
 		return err
 	}

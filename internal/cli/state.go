@@ -3,8 +3,10 @@ package cli
 
 import (
 	"github.com/dey12956/gator/internal/config"
+	"github.com/dey12956/gator/internal/database"
 )
 
 type State struct {
-	C *config.Config
+	DB *database.Queries
+	C  *config.Config
 }
