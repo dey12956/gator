@@ -1,0 +1,59 @@
+# --- Go build output ---
+/bin/
+/dist/
+/out/
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.o
+*.out
+*.test
+*.prof
+gator
+
+# Go workspace file (Go 1.18+)
+go.work
+go.work.sum
+
+# Coverage
+coverage.out
+*.coverprofile
+*.cov
+
+# --- Dependency/vendor (choose one approach) ---
+/vendor/
+
+# --- Logs ---
+*.log
+
+# --- macOS junk ---
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# --- Editor/IDE ---
+.idea/
+*.iml
+.vscode/
+*.code-workspace
+
+# Vim / Neovim
+*.swp
+*.swo
+*~
+*.bak
+
+# --- Env / secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Local temp / tool output ---
+tmp/
+*.local
