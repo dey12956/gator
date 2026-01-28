@@ -36,6 +36,7 @@ func main() {
 	cmds.Register("register", cli.HandlerRegister)
 	cmds.Register("reset", cli.HandlerReset)
 	cmds.Register("users", cli.HandlerUsers)
+	cmds.Register("agg", cli.HandlerAgg)
 
 	cliArgs := os.Args
 	if len(cliArgs) < 2 {
