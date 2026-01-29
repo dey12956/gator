@@ -10,18 +10,14 @@ import (
 	"github.com/google/uuid"
 )
 
-func HandlerAddFeed(s *State, cmd Command) error {
+func HandlerAddFeed(s *State, cmd Command, user database.User) error {
 	if len(cmd.Args) != 2 {
 		return errors.New("you need to enter the name and the url of a new feed")
 	}
 
-	user, err := s.DB.GetUser(context.Background(), s.C.CurrentUserName)
-	if err != nil {
-		return err
-	}
 	userID := user.ID
 
-	_, err = s.DB.CreateFeed(context.Background(), database.CreateFeedParams{
+	_, err := s.DB.CreateFeed(context.Background(), database.CreateFeedParams{
 		ID:        uuid.New(),
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
@@ -34,6 +30,25 @@ func HandlerAddFeed(s *State, cmd Command) error {
 	}
 
 	fmt.Printf("Feed %s is added by %s\n", cmd.Args[0], s.C.CurrentUserName)
+
+	feed, err := s.DB.GetFeedByUrl(context.Background(), cmd.Args[1])
+	if err != nil {
+		return err
+	}
+	feedID := feed.ID
+
+	_, err = s.DB.CreateFeedFollow(context.Background(), database.CreateFeedFollowParams{
+		ID:        uuid.New(),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		UserID:    userID,
+		FeedID:    feedID,
+	})
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("%s started following %s\n", user.Name, feed.Name)
 
 	return nil
 }
