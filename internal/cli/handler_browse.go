@@ -5,9 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+
+	"github.com/dey12956/gator/internal/database"
 )
 
-func HandlerBrowse(s *State, cmd Command) error {
+func HandlerBrowse(s *State, cmd Command, user database.User) error {
 	limit := 2
 	if len(cmd.Args) == 1 {
 		var err error
@@ -19,7 +21,10 @@ func HandlerBrowse(s *State, cmd Command) error {
 		return errors.New("you should only enter a limit number")
 	}
 
-	posts, err := s.DB.GetPostsForUser(context.Background(), int32(limit))
+	posts, err := s.DB.GetPostsForUser(context.Background(), database.GetPostsForUserParams{
+		UserID: user.ID,
+		Limit:  int32(limit),
+	})
 	if err != nil {
 		return err
 	}

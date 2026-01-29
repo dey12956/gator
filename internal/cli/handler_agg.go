@@ -49,6 +49,11 @@ func scrapeFeeds(s *State) {
 	}
 
 	for _, post := range rssFeed.Channel.Item {
+		description := post.Description
+		if strings.TrimSpace(post.Content) != "" {
+			description = post.Content
+		}
+
 		pubDate := parsePostPubDate(post.PubDate)
 		_, err := s.DB.CreatePost(context.Background(), database.CreatePostParams{
 			ID:          uuid.New(),
@@ -56,7 +61,7 @@ func scrapeFeeds(s *State) {
 			UpdatedAt:   time.Now(),
 			Title:       post.Title,
 			Url:         post.Link,
-			Description: post.Description,
+			Description: description,
 			PublishedAt: pubDate,
 			FeedID:      feed.ID,
 		})
